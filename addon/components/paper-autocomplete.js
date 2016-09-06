@@ -244,6 +244,9 @@ export default Component.extend({
   }),
 
   lookupLabelOfItem(model) {
+    if (!model) {
+      return '';
+    }
     return this.get('lookupKey') ? get(model, this.get('lookupKey')) : model;
   },
 
