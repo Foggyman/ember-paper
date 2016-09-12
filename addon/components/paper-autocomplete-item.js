@@ -30,5 +30,13 @@ export default Component.extend({
 
   click() {
     this.sendAction('pick', this.get('item'));
+  },
+
+  didInsertElement(){
+    var self = this;
+    this.$(".try").click(function(){
+      self.sendAction('pick', self.get('item'));
+    });
   }
+
 });
