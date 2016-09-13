@@ -268,7 +268,6 @@ export default Component.extend({
     },
 
     inputFocusOut() {
-      return;
       this.set('hasFocus', false);
       if (this.get('noBlur') === false) {
         this.set('hidden', true);
