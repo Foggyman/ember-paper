@@ -41,31 +41,34 @@ export default Component.extend({
 
   // TODO reafactor into a computed property that binds directly to dropdown's `style`
   positionDropdown() {
-    let hrect  = Ember.$(`#${this.get('wrapToElementId')}`)[0].getBoundingClientRect();
-    let vrect  = hrect;
-    let root   = document.body.getBoundingClientRect();
-    let top    = vrect.bottom - root.top;
-    let bot    = root.bottom - vrect.top;
-    let left   = hrect.left - root.left;
-    let { width }  = hrect;
-    let styles = {
+    Ember.run.later(this,function(){
+      let hrect  = Ember.$(`#${this.get('wrapToElementId')}`)[0].getBoundingClientRect();
+      let vrect  = hrect;
+      let root   = document.body.getBoundingClientRect();
+      let top    = vrect.bottom - root.top;
+      let bot    = root.bottom - vrect.top;
+      let left   = hrect.left - root.left;
+      let { width }  = hrect;
+      let styles = {
         left: `${left}px`,
         minWidth: `${width}px`,
         maxWidth: `${Math.max(hrect.right - root.left, root.right - hrect.left) - MENU_PADDING}px`
       };
-    let ul = this.$();
+      let ul = this.$();
 
-    if (top > bot && root.height - hrect.bottom - MENU_PADDING < MAX_HEIGHT) {
-      styles.top = 'auto';
-      styles.bottom = `${bot}px`;
-      styles.maxHeight = `${Math.min(MAX_HEIGHT, hrect.top - root.top - MENU_PADDING)}px`;
-    } else {
-      styles.top = `${top}px`;
-      styles.bottom = 'auto';
-      styles.maxHeight = `${Math.min(MAX_HEIGHT, root.bottom - hrect.bottom - MENU_PADDING)}px`;
-    }
-    ul.css(styles);
-    correctHorizontalAlignment();
+      if (top > bot && root.height - hrect.bottom - MENU_PADDING < MAX_HEIGHT) {
+        styles.top = 'auto';
+        styles.bottom = `${bot}px`;
+        styles.maxHeight = `${Math.min(MAX_HEIGHT, hrect.top - root.top - MENU_PADDING)}px`;
+      } else {
+        styles.top = `${top}px`;
+        styles.bottom = 'auto';
+        styles.maxHeight = `${Math.min(MAX_HEIGHT, root.bottom - hrect.bottom - MENU_PADDING)}px`;
+      }
+      ul.css(styles);
+      correctHorizontalAlignment();
+    },500);
+
 
     /*
      * Makes sure that the menu doesn't go off of the screen on either side.
